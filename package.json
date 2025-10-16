@@ -1,0 +1,13 @@
+{
+    "urls": [
+        [
+            "src/serial.py", "github:sebromero/micropython-tools/src/serial.py"
+        ]
+    ],
+    "deps": [
+        [
+            "usb-device-cdc", "latest"
+        ]
+    ],
+    "version": "1.0.0"
+}
