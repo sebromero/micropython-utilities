@@ -54,3 +54,4 @@ class Timer:
                 self.stop()
             if hasattr(self, '_on_timer_end') and callable(self._on_timer_end):
                 self._on_timer_end()
+            self.start()
