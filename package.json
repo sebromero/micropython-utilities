@@ -1,13 +1,15 @@
 {
     "urls": [
-        [
-            "src/serial.py", "github:sebromero/micropython-tools/src/serial.py"
-        ]
+            ["micropython_utilities/__init__.py", "github:sebromero/micropython-utilities/src/micropython_utilities/__init__.py"],
+            ["micropython_utilities/espnow_manager.py", "github:sebromero/micropython-utilities/src/micropython_utilities/espnow_manager.py"],
+            ["micropython_utilities/jump_detector.py", "github:sebromero/micropython-utilities/src/micropython_utilities/jump_detector.py"],
+            ["micropython_utilities/keyboard_emulator.py", "github:sebromero/micropython-utilities/src/micropython_utilities/keyboard_emulator.py"],
+            ["micropython_utilities/serial.py", "github:sebromero/micropython-utilities/src/micropython_utilities/serial.py"],
+            ["micropython_utilities/timer.py", "github:sebromero/micropython-utilities/src/micropython_utilities/timer.py"]
     ],
     "deps": [
-        [
-            "usb-device-cdc", "latest"
-        ]
+        ["usb-device-cdc", "latest"],
+        ["usb-device-keyboard", "latest"]
     ],
     "version": "1.0.0"
 }

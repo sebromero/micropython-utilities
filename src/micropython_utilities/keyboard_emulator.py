@@ -1,5 +1,5 @@
 import usb.device
-from usb.device.keyboard import KeyboardInterface, KeyCode, LEDCode
+from usb.device.keyboard import KeyboardInterface, KeyCode
 from time import sleep_ms
 from collections import namedtuple
 
@@ -32,6 +32,9 @@ class KeyboardEmulator:
         usb.device.get().init(self.keyboard, builtin_driver=True)
 
     def send_keys(self, key_codes):
+        """
+        Standalone method to send key codes immediately.
+        """
         if not self.keyboard.is_open():
             return        
         self.keyboard.send_keys(key_codes)
@@ -54,20 +57,3 @@ class KeyboardEmulator:
             self.keyboard.send_keys(self.keys)
             self.prev_keys.clear()
             self.prev_keys.extend(self.keys)
-
-
-if __name__ == "__main__":
-    from machine import Pin
-    sim = KeyboardEmulator()
-    btn_emulate = Pin("D2", Pin.IN)
-    btn_stop = Pin("D3", Pin.IN)
-    sim.add_binding(lambda: not btn_emulate.value(), KeyCode.SPACE)
-    sim.start()
-    
-    # This simple example scans each input in an infinite loop, but a more
-    # complex implementation would probably use a timer or similar.
-    while True:
-        if btn_stop.value() == 0:
-            break
-        sim.update()
-        sleep_ms(1)

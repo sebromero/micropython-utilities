@@ -58,18 +58,5 @@ class JumpDetector:
         # Execute the callback if a jump is detected and the minimum jump interval has passed
         if is_jump and time_since_last_jump > self.MIN_JUMP_INTERVAL:
             self._last_jump_detected_time = ticks_ms()
-            if self._on_jump:
+            if callable(self._on_jump):
                 self._on_jump(average)
-
-if __name__ == "__main__":
-    from modulino import ModulinoMovement
-    movement = ModulinoMovement()
-    sample_rate = 25  # Only insert a new sample every 25 ms
-    buffer_size = 10  # Store the last 10 samples
-    threshold = 1.75  # Threshold (in g) for jump detection
-    jump_detector = JumpDetector(buffer_size, threshold, sample_rate)
-    jump_detector.on_jump = lambda avg: print(f"Jump detected! 📈 Avg.: {avg:>8.3f}\n")
-
-    while True:
-        jump_detector.append(movement.accelerometer)
-        jump_detector.update()

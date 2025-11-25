@@ -2,13 +2,14 @@ from time import ticks_diff, ticks_ms
 
 class Timer:
     def __init__(self, duration_ms=None, one_shot=True):
-        self.start_time = None
+        self._start_time = None
         self._duration_ms = duration_ms
         self._is_running = False
         self._one_shot = one_shot
+        self._on_timer_end = None
 
     def start(self):
-        self.start_time = ticks_ms()
+        self._start_time = ticks_ms()
         self._is_running = True
 
     def stop(self):
@@ -26,7 +27,7 @@ class Timer:
 
     @property
     def on_timer_end(self):
-        return self._on_timer_end if hasattr(self, '_on_timer_end') else None
+        return self._on_timer_end
 
     @on_timer_end.setter
     def on_timer_end(self, callback):
@@ -36,9 +37,9 @@ class Timer:
 
     @property
     def elapsed_ms(self):
-        if self.start_time is None:
+        if self._start_time is None:
             raise ValueError("Timer has not been started.")
-        return ticks_diff(ticks_ms(), self.start_time)
+        return ticks_diff(ticks_ms(), self._start_time)
     
     @property
     def has_ended(self):
@@ -50,8 +51,9 @@ class Timer:
         if not self._is_running:
             return
         if self.has_ended:
+            if callable(self._on_timer_end):
+                self._on_timer_end()
             if self._one_shot:
                 self.stop()
-            if hasattr(self, '_on_timer_end') and callable(self._on_timer_end):
-                self._on_timer_end()
-            self.start()
+            else:
+                self.start()

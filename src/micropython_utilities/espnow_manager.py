@@ -46,21 +46,17 @@ class ESPNowManager:
     def get_data(self, timeout=None):
         if not self.esp_now:
             return None, None
-        host, message = self.esp_now.recv(timeout)
-        if not message:
+        host, data = self.esp_now.recv(timeout)
+        if not data:
             return None, None
         host_addr = ubinascii.hexlify(host).decode()
         host_addr_spaces = " ".join(host_addr[i:i+2] for i in range(0, len(host_addr), 2))
-        return host_addr_spaces, message
+        return host_addr_spaces, data
 
-    # def get_message(self):
-    #     host, message = self.get_data()
-    #     if message:
-    #         return host, message.decode()
-
-    # TODO: For the next release make this return a decoded string
-    def get_message(self, timeout=None):
-        return self.get_data(timeout)
+    def get_message(self):
+        host, message = self.get_data()
+        if message:
+            return host, message.decode()
 
     def send_message(self, peer_mac, message, sync=True):
         if not self.esp_now:
@@ -76,21 +72,5 @@ class ESPNowManager:
     def send_broadcast(self, message):
         if not self.esp_now:
             return False
-        peer = "ff ff ff ff ff ff"
+        peer = "ffffffffffff"
         return self.send_message(peer, message, False)
-    
-
-if __name__ == "__main__":
-    esp_manager = ESPNowManager()
-    address = esp_manager.start()
-    print(f"My MAC address: {address}")
-
-    # Sender:
-    # peer = "aa bb cc dd ee ff"
-    # esp_manager.send_message(peer, "Hello ESP-NOW")
-
-    # Receiver:
-    # while True:
-    #     host, message = esp_manager.get_message()
-    #     if message:
-    #         print(f"{message} from {host}")
