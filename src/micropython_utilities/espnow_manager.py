@@ -29,6 +29,7 @@ class ESPNowManager:
     def start(self):
         self.wlan = WLAN(STA_IF)
         self.wlan.active(True)
+        self.wlan.config(pm=WLAN.PM_NONE)  # Disable power management
         self.esp_now = ESPNow()
         self.esp_now.active(True)
 
@@ -59,7 +60,7 @@ class ESPNowManager:
             return host, message.decode()
 
     def send_message(self, peer_mac, message, sync=True):
-        if not self.esp_now:
+        if not self.esp_now or not message:
             return False
         mac_trimmed = peer_mac.replace(" ", "")
         # Check for valid MAC address format

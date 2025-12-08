@@ -12,7 +12,7 @@ def enter_sender_mode():
 
 
 def enter_receiver_mode():
-    print(f"Listening for messages at {address}...")
+    print(f"Listening for messages at address '{address}'...")
     while True:
         host, message = esp_manager.get_message()
         if message:
@@ -20,7 +20,7 @@ def enter_receiver_mode():
 
 try:
     # Ask user if they want to be sender or receiver
-    mode = input("Enter 's' to be sender or 'r' to be receiver: ").strip().lower()
+    mode = input("\nEnter 's' to be sender or 'r' to be receiver: ").strip().lower()
     if mode == 's':
         enter_sender_mode()        
     elif mode == 'r':
