@@ -6,7 +6,8 @@
             ["micropython_utilities/keyboard_emulator.py", "github:sebromero/micropython-utilities/src/micropython_utilities/keyboard_emulator.py"],
             ["micropython_utilities/serial.py", "github:sebromero/micropython-utilities/src/micropython_utilities/serial.py"],
             ["micropython_utilities/timer.py", "github:sebromero/micropython-utilities/src/micropython_utilities/timer.py"],
-            ["micropython_utilities/buzzer.py", "github:sebromero/micropython-utilities/src/micropython_utilities/buzzer.py"]
+            ["micropython_utilities/buzzer.py", "github:sebromero/micropython-utilities/src/micropython_utilities/buzzer.py"],
+            ["micropython_utilities/dimmer.py", "github:sebromero/micropython-utilities/src/micropython_utilities/dimmer.py"]
     ],
     "deps": [
         ["usb-device-cdc", "latest"],
