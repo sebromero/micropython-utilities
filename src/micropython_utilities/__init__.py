@@ -9,3 +9,4 @@ from .jump_detector import JumpDetector
 from .keyboard_emulator import KeyboardEmulator, KeyCode
 from .serial import Serial
 from .timer import Timer
+from .buzzer import Buzzer
