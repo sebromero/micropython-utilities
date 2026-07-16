@@ -54,10 +54,12 @@ class ESPNowManager:
         host_addr_spaces = " ".join(host_addr[i:i+2] for i in range(0, len(host_addr), 2))
         return host_addr_spaces, data
 
-    def get_message(self):
-        host, message = self.get_data()
+    def get_message(self, timeout=None):
+        host, message = self.get_data(timeout)
         if message:
             return host, message.decode()
+        else:
+            return None, None
 
     def send_message(self, peer_mac, message, sync=True):
         if not self.esp_now or not message:
