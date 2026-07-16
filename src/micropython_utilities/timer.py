@@ -9,6 +9,16 @@ class Timer:
         self._on_timer_end = None
 
     def start(self):
+        if self._is_running:
+            return
+        self._start_time = ticks_ms()
+        self._is_running = True
+
+    def reset(self):
+        self._start_time = None
+        self._is_running = False        
+
+    def restart(self):
         self._start_time = ticks_ms()
         self._is_running = True
 
@@ -38,9 +48,13 @@ class Timer:
     @property
     def elapsed_ms(self):
         if self._start_time is None:
-            raise ValueError("Timer has not been started.")
+            return 0
         return ticks_diff(ticks_ms(), self._start_time)
     
+    @property
+    def is_running(self):
+        return self._is_running
+
     @property
     def has_ended(self):
         if self._duration_ms is None:
