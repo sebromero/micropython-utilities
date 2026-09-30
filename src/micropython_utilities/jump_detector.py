@@ -11,12 +11,12 @@ from collections import deque
 class JumpDetector:
     MIN_JUMP_INTERVAL = 500 # Minimum time between jumps in milliseconds
 
-    def __init__(self, buffer_size, threshold, sample_rate):
-        self.size = buffer_size # Size of the buffer to hold the last N motion vector magnitudes
-        self.data = deque([], buffer_size) # Prefill the buffer with zeros
+    def __init__(self, threshold, window_size_ms=250, sample_rate=25):
+        self._sample_rate = sample_rate # Sample rate in milliseconds
+        self._size = max(1, window_size_ms // sample_rate) # Number of samples that fit in the window
+        self.data = deque([], self._size) # Prefill the buffer with zeros
         self.threshold = threshold # Motion vector magnitude threshold for jump detection
         self._last_jump_detected_time = 0 # Time when the last jump was detected
-        self._sample_rate = sample_rate # Sample rate in milliseconds
         self._last_sample_inserted_time = 0 # Time when the last sample was inserted
 
     @property
@@ -47,11 +47,11 @@ class JumpDetector:
         self.data.append(magnitude)
         self._last_sample_inserted_time = current_time
 
-    def _average(self):
+    def average(self):
         return sum(self.data) / len(self.data)
 
     def update(self):
-        average = self._average()
+        average = self.average()
         is_jump = average > self.threshold
         time_since_last_jump = ticks_diff(ticks_ms(), self._last_jump_detected_time)
         
